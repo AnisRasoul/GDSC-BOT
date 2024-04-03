@@ -1,0 +1,17 @@
+{
+  "name": "gdsc-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "dev": "nodemon bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "djs-commander": "^0.0.50",
+    "dotenv": "^16.4.5"
+  }
+}
