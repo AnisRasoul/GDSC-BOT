@@ -1,12 +1,13 @@
 // slash command that send you a google map link of EE (location of gdsc)
+// ikram
 const { SlashCommandBuilder } = require('discord.js');
 
 
 module.exports = {
     deleted: false, 
     data: new SlashCommandBuilder() // the slash commands's data here
-            .setName('')
-            .setDescription(''),
+            .setName('find')
+            .setDescription('ikram fill this'),
     run: ({interaction, client, handler}) => { // write the logic here
         
     }
