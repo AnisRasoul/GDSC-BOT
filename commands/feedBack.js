@@ -2,9 +2,11 @@
 // dhia 
 const { SlashCommandBuilder, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, addDoc } = require('firebase/firestore');
+const { getFirestore, collection, addDoc, doc, setDoc } = require('firebase/firestore');
 const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 require('dotenv').config();
+
+
 
 const firebaseConfig = {
     apiKey: process.env.API_KEY,
@@ -33,11 +35,15 @@ module.exports = {
       const feedbackText = interaction.options.getString('text');
       const username = interaction.user.username;
       const userId = interaction.user.id;
+      const timestamp = Date.now(); 
+      const docId = `${username}_${timestamp}`; 
       try {
-        const docRef = await addDoc(collection(db, "feedback"), {
+        const docRef = doc(db, "feedback", docId);
+        await setDoc(docRef, {
           text: feedbackText,
           username: username,
-          userId: userId
+          userId: userId,
+          time: new Date(timestamp).toISOString()
         });
         console.log("Document written with ID: ", docRef.id);
         await interaction.reply('Thank you for your feedback!');
