@@ -1,4 +1,5 @@
 // a slash command that has many subcommands when you click on one it send an embed of that specefic event
+// bouthaina
 const { SlashCommandBuilder } = require('discord.js');
 
 

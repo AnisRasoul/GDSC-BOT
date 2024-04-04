@@ -1,5 +1,6 @@
 // slash command that gives you a select list that gives you departments as opations when clicking on
 // that specefic departemnt it returns the members of that latter
+// anis
 const { SlashCommandBuilder } = require('discord.js');
 
 

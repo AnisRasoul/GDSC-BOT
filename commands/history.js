@@ -1,4 +1,5 @@
 // slash command that gives a text that talks about gdsc's history
+// bouthaina
 const { SlashCommandBuilder } = require('discord.js');
 
 

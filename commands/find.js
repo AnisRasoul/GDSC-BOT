@@ -1,4 +1,5 @@
 // slash command that send you a google map link of EE (location of gdsc)
+// ikram
 const { SlashCommandBuilder } = require('discord.js');
 
 
