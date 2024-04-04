@@ -46,7 +46,10 @@ module.exports = {
           time: new Date(timestamp).toISOString()
         });
         console.log("Document written with ID: ", docRef.id);
-        await interaction.reply('Thank you for your feedback!');
+        interaction.reply({
+          content: `Hi, ${interaction.user.globalName}. Thanks for the feedback`,
+          ephemeral: true 
+      });
       } catch (e) {
         console.error("Error adding document: ", e);
       }
