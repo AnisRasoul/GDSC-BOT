@@ -34,7 +34,7 @@ module.exports = {
     async run({ interaction, client, handler }) {
       const feedbackText = interaction.options.getString('text');
       const username = interaction.user.username;
-      const userId = interaction.user.id;
+      const userId = interaction.user.id; 
       const timestamp = Date.now(); 
       const docId = `${username}_${timestamp}`; 
       try {
