@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 module.exports = {
-    deleted: false,
+    deleted: true,
     data: new SlashCommandBuilder()
       .setName('feedback')
       .setDescription('Give feedback')
