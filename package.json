@@ -12,6 +12,7 @@
   "dependencies": {
     "discord.js": "^14.14.1",
     "djs-commander": "^0.0.50",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "firebase": "^10.10.0"
   }
 }
