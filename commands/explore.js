@@ -8,7 +8,7 @@ module.exports = {
     data: new SlashCommandBuilder() // the slash commands's data here
             .setName('explore')
             .setDescription('This shows you some GDSC world s chapters'),
-    run: ({interaction, client, handler}) => { // write the logic here
+    run: ({ interaction , client , handler }) => { // write the logic here
         async ({ interaction }) =>  {
             const regions = [
                 {
