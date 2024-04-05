@@ -1,7 +1,6 @@
 // slash command that gives you list about each region when clicking it send an embed about gdsc chapters in that latter
 // ikram
-const { SlashCommandBuilder } = require('discord.js');
-const { Emoji } = require('discord.js/typings');
+const { SlashCommandBuilder , StringSelectMenuBuilder , ActionRowBuilder , StringSelectMenuOptionBuilder } = require('discord.js');
 
 
 module.exports = {
@@ -10,37 +9,37 @@ module.exports = {
             .setName('explore')
             .setDescription('This shows you some GDSC world s chapters'),
     run: ({interaction, client, handler}) => { // write the logic here
-        async ({ interaction, client, handler }) =>  {
+        async ({ interaction }) =>  {
             const regions = [
                 {
                     label: 'Algeria',
                     description: 'Algeria chapters',
-                    Emoji: ':flag_dz:',
+                    Emoji: ':flag_dz:'
                      // value: embed 
                 },
                 {
                     label: 'North America',
                     description: 'North America chapters',
-                    Emoji: '🌎',
+                    Emoji: '🌎'
                     // value:  embed , 
                 },
         
                 {
                     label: 'Europe',
                     description: 'Europe chapters',
-                    Emoji: '🌍' ,
+                    Emoji: '🌍' 
                     // value: embed ,
                 },
                 {
                     label: 'Africa',
                     description: 'Africa chapters',
-                    Emoji : '🌍',
+                    Emoji : '🌍'
                     // value: embed ,
                 },
                 {
                     label: 'Asia',
                     description: 'Asia chapters ',
-                    Emoji: '🌏',
+                    Emoji: '🌏'
                     // value: embed ,
                 },
                 
@@ -50,6 +49,7 @@ module.exports = {
                     Emoji: '🌍',
                     // value: embed  
                 },
+            
             
 
             ];
