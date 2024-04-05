@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 module.exports = {
-    deleted: false,
+    deleted: true,
     data: new SlashCommandBuilder()
       .setName('feedback')
       .setDescription('Give feedback')
@@ -34,7 +34,7 @@ module.exports = {
     async run({ interaction, client, handler }) {
       const feedbackText = interaction.options.getString('text');
       const username = interaction.user.username;
-      const userId = interaction.user.id;
+      const userId = interaction.user.id; 
       const timestamp = Date.now(); 
       const docId = `${username}_${timestamp}`; 
       try {
@@ -46,7 +46,10 @@ module.exports = {
           time: new Date(timestamp).toISOString()
         });
         console.log("Document written with ID: ", docRef.id);
-        await interaction.reply('Thank you for your feedback!');
+        interaction.reply({
+          content: `Hi, ${interaction.user.globalName}. Thanks for the feedback`,
+          ephemeral: true 
+      });
       } catch (e) {
         console.error("Error adding document: ", e);
       }

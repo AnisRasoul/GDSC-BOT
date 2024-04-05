@@ -4,7 +4,7 @@ module.exports = async (interaction, client, handler, user) => {
         const channel = await client.channels.cache.get('1223679887756234823');
         if (channel) {
             channel.send({
-                content: `Hi, stranger! I'll tell you some secrets about gdsc`,
+                content: `Hi, ${interaction.user.username}! I'll tell you some secrets about gdsc`,
                 ephemeral: true
             });
         }

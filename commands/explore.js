@@ -7,7 +7,7 @@ module.exports = {
     deleted: false, 
     data: new SlashCommandBuilder() // the slash commands's data here
             .setName('explore')
-            .setDescription('ikram fill this'),
+            .setDescription('IKRAM fill this'),
     run: ({interaction, client, handler}) => { // write the logic here
         
     }
