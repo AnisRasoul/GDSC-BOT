@@ -4,7 +4,7 @@ const { SlashCommandBuilder } = require('discord.js');
 
 
 module.exports = {
-    deleted: false, 
+    deleted: true, 
     data: new SlashCommandBuilder() // the slash commands's data here
             .setName('highlights')
             .setDescription('  bouthaina fill this'),
