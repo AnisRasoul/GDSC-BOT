@@ -16,7 +16,6 @@ new CommandHandler({
     client,
     commandsPath: path.join(__dirname, 'commands'), // path to commands folder : create commands here
     eventsPath: path.join(__dirname, 'events'), // path to events folder : create events here
-    validationsPath: path.join(__dirname, 'validations'), // path to validations folder : create validations here 
     testServer: process.env.GUILD_ID
 });
 client.login(process.env.TOKEN)

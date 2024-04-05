@@ -67,7 +67,7 @@ module.exports = {
         );
         const actionRow = new ActionRowBuilder().addComponents(selectMenu);
         const reply = await interaction.reply({
-
+            
             components: [actionRow]
         })
 
