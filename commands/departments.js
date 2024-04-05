@@ -37,7 +37,7 @@ module.exports = {
 
         await interaction.reply({ content: 'Please select a department:', components: [row] });
     },
-    async execute(interaction) {
+   /* async execute(interaction) {
         const row = new MessageActionRow()
             .addComponents(
                 new MessageButton()
@@ -63,5 +63,5 @@ module.exports = {
             );
 
         await interaction.reply({ content: 'Please select a department:', components: [row] });
-    }
+    }*/
 };
