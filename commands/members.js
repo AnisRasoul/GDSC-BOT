@@ -12,6 +12,7 @@ module.exports = {
                 
                 {name:'Amina Benamor', year:'M2', program:'AI'}],
             HR: [
+                {name:'Amani Rahmani', year:'M1 ', program:'AI'},
                 { name: 'Anis Rasoul', year:'3rd year', program: 'Computer Science' }
             ],
             PR: [
@@ -26,15 +27,15 @@ module.exports = {
                 {name:'Khomri haithem',year:'M1',program:'Ai'},
                 { name: 'Abdelmalek Medseghir', year: '2nd year', program: 'Computer science' },
 
-
             ],
             Design: [
 
                 { name: 'Amdjed Nedjahi', year: 'M1', program: 'Accounting and taxation ' },
                 { name: 'Mohamed Boudiaf', year: '3rd year', program: 'Computer Science ' },
                 { name: 'Boughris Menane', year: '2nd Year', program: 'Computer Science ' },
-                { name: 'Abderraouf Benbellat', year: '2nd year', program: 'Computer science , ' },
-                { name: 'Hamza Rouabah', year: '2nd Year', program: 'Computer Science ' }
+                { name: 'Abderraouf Benbellat', year: '2nd year', program: 'Computer science' },
+                { name: 'Hamza Rouabah', year: '2nd Year', program: 'Computer Science' },
+                {name:'Bouragbi salah eddine ', year:'2nd Year', program:'Computer Science'}
             ],
             DM: [
                 { name: 'Amrane Mohamed', year: '2nd year', program: 'Computer Science' },
