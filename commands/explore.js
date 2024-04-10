@@ -1,148 +1,151 @@
-// slash command that gives you list about each region when clicking it send an embed about gdsc chapters in that latter
-// ikram
 const { SlashCommandBuilder , StringSelectMenuBuilder , ActionRowBuilder , StringSelectMenuOptionBuilder, ComponentType } = require('discord.js');
-
-
 module.exports = {
     deleted: false, 
-    data: new SlashCommandBuilder() // the slash commands's data here
+    data: new SlashCommandBuilder()
             .setName('explore')
-            .setDescription('This shows you some GDSC world s chapters'),
-     run: async ({ interaction , client , handler }) => { // write the logic here
-        
-        
+            .setDescription('This shows you some GDSC world\'s chapters'),
+
+     run: async ({ interaction , client , handler }) => { 
         const regionsData = {
             Algeria: [
                 {
-                    university: "University of Algiers",
-                    country: "Algeria"
+
+                    university: "**_ESI - SBA_**\n",
+                    country: "(22) sidi bel abbes\n"
+                    
                 },
                 {
-                    university: "Oran University",
-                    country: "Algeria"
+                    university:"**_USTO_**\n",
+                    country: "(31) Oran\n"
                 },
                 {
-                    university: "Constantine University",
-                    country: "Algeria"
+                    university: "**_University of Boumerdes_**\n",
+                    country: "(35) Boumerdes\n"
                 },
                 {
-                    university: "Annaba University",
-                    country: "Algeria"
+                    university: "**_USTHB_**\n",
+                    country: "(16) Algiers\n"
                 },
                 {
-                    university: "Tlemcen University",
-                    country: "Algeria"
-                }
+                    university: "**_ENSB_**\n",
+                    country: "(25) Constantine\n"
+                },
+               
             ],
             NorthAmerica: [
                 {
-                    university: "New York University",
-                    country: "United States"
+                    university: "**_University of British Columbia - Vancouver_** \n",
+                    country: "🇨🇦 Canada\n"
                 },
                 {
-                    university: "University of Toronto",
-                    country: "Canada"
+                    university: "**_Carleton University_**\n",
+                    country: "🇨🇦 Canada\n"
                 },
                 {
-                    university: "University of California, Berkeley",
-                    country: "United States"
+                    university: "**_Louisiana State University - Baton Rouge_**\n",
+                    country: "🇺🇸 U.S.A\n"
                 },
                 {
-                    university: "McGill University",
-                    country: "Canada"
+                    university: "**_California State Polytechnic University_**\n",
+                    country: "🇺🇸 U.S.A\n"
                 },
                 {
-                    university: "Stanford University",
-                    country: "United States"
-                }
+                    university: "**_New Jersey Institute of Technology_**\n",
+                    country: "🇺🇸 U.S.A"
+                },
+               
             ],
             Europe: [
                 {
-                    university: "University of Oxford",
-                    country: "United Kingdom"
+
+                    university: "**_Imperial College of Science, Technology and Medicine_**\n",
+                    country: "🇬🇧 U.K\n"
                 },
                 {
-                    university: "ETH Zurich",
-                    country: "Switzerland"
+                    university: "**_Epoka University_**\n",
+                    country: "🇦🇱 Albania\n"
                 },
                 {
-                    university: "Sorbonne University",
-                    country: "France"
+                    university: "**_The Polytechnic University of Timisoara_**\n",
+                    country: "🇷🇴 Romania\n"
                 },
                 {
-                    university: "Technical University of Munich",
-                    country: "Germany"
+                    university: "**_Technical University Berlin_**\n",
+                    country: "🇩🇪 Germany\n"
                 },
                 {
-                    university: "University of Amsterdam",
-                    country: "Netherlands"
-                }
+                    university: "**_Collegium Da Vinci_**\n",
+                    country: "🇵🇱 Poland\n"
+                },
+               
             ],
             Africa: [
                 {
-                    university: "University of Cape Town",
-                    country: "South Africa"
+                    university: "**_Adekunle Ajasin University_**\n",
+                    country: "🇳🇬 Nigeria\n"
                 },
                 {
-                    university: "University of Nairobi",
-                    country: "Kenya"
+                    university: "**_ICT University_**\n",
+                    country: "🇨🇲 Cameroon\n"
                 },
                 {
-                    university: "University of Ghana",
-                    country: "Ghana"
+                    university: "**_ENSET Mohammedia_**\n",
+                    country: "🇲🇦 Morroco\n"
                 },
                 {
-                    university: "University of Lagos",
-                    country: "Nigeria"
+                    university: "**_Faculty of Science of Tunis_**\n",
+                    country: "🇹🇳 Tunisia\n"
                 },
                 {
-                    university: "University of Pretoria",
-                    country: "South Africa"
-                }
+                    university: "**_St Paul's University_**\n",
+                    country: "🇰🇪 Kenya\n"
+                },
             ],
             Asia: [
                 {
-                    university: "University of Tokyo",
-                    country: "Japan"
+                    university: "**_Cristal e-College_**\n",
+                    country: "🇵🇭 Philippines\n "
                 },
                 {
-                    university: "National University of Singapore",
-                    country: "Singapore"
+                    university: "**_Chandigarh University_**\n",
+                    country: "🇮🇳 India\n"
                 },
                 {
-                    university: "Tsinghua University",
-                    country: "China"
+                    university: "**_Binus University Malang_**\n",
+                    country: "🇮🇩 Indonesia\n"
                 },
                 {
-                    university: "Seoul National University",
-                    country: "South Korea"
+                    university: "**_Waseda University_**\n",
+                    country: "🇯🇵 Japan\n"
                 },
                 {
-                    university: "Indian Institute of Technology Bombay",
-                    country: "India"
-                }
+                    university: "**_Tamkang University_**\n",
+                    country: "🇹🇼 Taiwan\n"
+                },
+              
             ],
             MiddleEast: [
                 {
-                    university: "American University of Beirut",
-                    country: "Lebanon"
+                    university: "**_Gaza University_**\n",
+                    country: "🇵🇸 Palestine\n"
                 },
                 {
-                    university: "King Fahd University of Petroleum and Minerals",
-                    country: "Saudi Arabia"
+                    university: "**_Applied Science Private University_** \n",
+                    country: "🇯🇴 Jordan\n"
                 },
                 {
-                    university: "Tel Aviv University",
-                    country: "Israel"
+                    university: "**_Obour Institute_**\n",
+                    country: "🇪🇬 Egypt\n"
                 },
                 {
-                    university: "American University in Cairo",
-                    country: "Egypt"
+                    university: "**_Beirut Arab University_**\n",
+                    country: "🇱🇧 Lebanon\n"
                 },
                 {
-                    university: "Koç University",
-                    country: "Turkey"
-                }
+                    university: "**_Prince Sattam Bin Abdulaziz University_**\n",
+                    country: "🇸🇦 Saudi Arabia\n"
+                },
+               
             ]
         };
         
@@ -160,9 +163,11 @@ module.exports = {
         );
         const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
+
         const reply = await interaction.reply({
-            content: 'select a region',
-            components: [actionRow]
+            content: 'Hey there!! 🌎 Ready to discover some of GDSC chapters beyond borders?\n Select a region and get to know them✨',
+            components: [actionRow] ,
+            ephemeral: true
         });
         const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.SELECT_MENU, time: 3_600_000 });
 
@@ -171,16 +176,16 @@ module.exports = {
                     const selectedRegions = regionsData[selection] || [];
                     let regionsInfo = '';
                     selectedRegions.forEach( club => {
-                        regionsInfo += `⦿ ${club.university} : ${club.country || ''} \n`;
+                        regionsInfo += `📍${club.university}  ${club.country || ''}  \n`;
                     });
                     await i.reply({
-                        content: ` Members of ${selection} :\n  ${regionsInfo || 'No members found.'}`,
+                        content: ` **__GDSC  ${selection}__**  :\n\n  ${regionsInfo || 'No Regionfound.'}`,
                 
                         ephemeral: true
-                    }); 
+                    });
 });
     
 
+    
     }
 }
-

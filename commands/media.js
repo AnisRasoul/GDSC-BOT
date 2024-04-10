@@ -1,16 +1,14 @@
 const { SlashCommandBuilder,ActionRowBuilder, ButtonBuilder, ButtonStyle, } = require('discord.js');
-const { link } = require('fs');
-
 module.exports = {
     deleted: false, 
     data: new SlashCommandBuilder()
             .setName('media')
-            .setDescription('Display GDSC social media links'),
+            .setDescription('Get our social media links 💭'),
     run: async ({ interaction, client, handler }) => {
 
         const Socials = [
             {
-              label: 'Instagram',
+              label: 'Instagram ',
               link:'https://www.instagram.com/gdsc.batna2/',
             },
             {
@@ -24,7 +22,7 @@ module.exports = {
             },
             {
                 label: 'tiktok',
-                link: 'https://discord.com/channels/873890972113703012/1218991251227934830/1225969938980802682',
+                link: 'https://www.tiktok.com/@gdsc.batna?is_from_webapp=1&sender_device=pc',
   
               },
               {
@@ -34,7 +32,6 @@ module.exports = {
               },
               
           ];
-        // Creating action row with buttons
         const row = new ActionRowBuilder();
 
         Socials.forEach((social) => {
@@ -45,8 +42,6 @@ module.exports = {
               .setURL(social.link)
           );
         });
-
-        // Replying with message and buttons
-        await interaction.reply({ content: 'Here are our social media links:', components: [row] });
+        await interaction.reply({ content: `what are you waiting for !? Tap to join our social media platforms ✨🚀`, components: [row] , ephemeral: true });
     }
 };

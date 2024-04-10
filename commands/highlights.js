@@ -1,7 +1,5 @@
-// a slash command that has many subcommands when you click on one it send an embed of that specefic event
-// bouthaina
-const { SlashCommandBuilder, Colors } = require('discord.js');
 
+const { SlashCommandBuilder} = require('discord.js');
 module.exports = {
     deleted: false,
     data: new SlashCommandBuilder()
@@ -21,11 +19,8 @@ module.exports = {
             subcommand
                 .setName('_ramadan_byte_quiz')
                 .setDescription('View highlights of ramadan.byte quiz ')
-        ) .addSubcommand(subcommand =>
-            subcommand
-                .setName('_mena_tech_skills_24')
-                .setDescription('View highlights of mena tech skills 24')
         ),
+        
     run: async ({ interaction, client, handler }) => {
         const subcommand = interaction.options.getSubcommand();
 
@@ -57,7 +52,7 @@ module.exports = {
                             { 
                              name: 'About 📃', 
                             value: ' solution challenge -event made specialy to try to solve for one of the United Nations’ 17 Sustainable Development Goals using Google technology, Created by the United Nations in 2015 to be achieved by 2030.', 
-                           /* inline: true,*/
+
                             },{
                              name: 'Winner',
                              value: 'unknw',
@@ -84,9 +79,7 @@ module.exports = {
                     image: {
                         url: 'https://media.licdn.com/dms/image/D4D22AQHzK4w_e6ledQ/feedshare-shrink_2048_1536/0/1702755801084?e=2147483647&v=beta&t=uuslh6j-ioBLrRsAYwrPeYdRNgWjS4RWwOYtNTQs3Lo',
                     },
-                    /*thumbnail: {
-                        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCXVmPInavq6mNdRB2cFBJY3eVP-HsrN7rABWT5f1nbA&s',
-                   }, */  
+
                     timestamp: new Date().toISOString(),
 	                footer: {
 	              	text: 'date',
@@ -134,53 +127,9 @@ module.exports = {
                                 value: 'ByteRamadan Quiz Nights for quick computer science challenges every Saturday, Monday, and Wednesday!  Let’s embark on this knowledge quest together, sparking curiosity and learning along the way! Get ready to challenge your mind and expand your horizons. Don’t miss out!', 
                                
                                 },
-         
-                               /* {
-                                 name: 'field',
-                                 value: 'unknw',
-                               
-                                },*/
                                ],
                     };
                     break;
-
-  /*  case   '_mena_tech_skills_24':
-
-                    embed = {
-                        title: 'Mena Tech Skills 24 ',
-                        description: 'Highlights of mena tech skills 24 ...',
-                        color:0x206694,
-                        author: {
-                                name: '',
-                                icon_url:'',
-                                url:'',
-                                }, 
-    
-                        image:  {
-                                url:'',
-                                },  
-    
-                        url: '',
-                        timestamp: new Date().toISOString(),
-                        footer: {
-                          text: 'date',
-                         icon_url: '',
-                               },
-                       fields: [
-                                { 
-                                 name: 'About 📃', 
-                                value: '', 
-                               
-                                },
-         
-                                {
-                                 name: 'field',
-                                 value: 'unknw',
-                               
-                                },
-                               ],
-                    };
-                    break;*/
             default:
                 return interaction.reply({ content: 'Unknown subcommand.', ephemeral: true });
         }
