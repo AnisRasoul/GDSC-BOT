@@ -52,12 +52,12 @@ module.exports = {
                             { 
                              name: 'About 📃', 
                             value: ' solution challenge -event made specialy to try to solve for one of the United Nations’ 17 Sustainable Development Goals using Google technology, Created by the United Nations in 2015 to be achieved by 2030.', 
-
+    
                             },{
                              name: 'Winner',
                              value: 'unknw',
                             
-                            },
+                            }
                            ],
                 };
                 break;
