@@ -1,9 +1,7 @@
-// slash command that gives the user a modal and he gives the input 
-// dhia 
+
 const { SlashCommandBuilder, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, addDoc, doc, setDoc } = require('firebase/firestore');
-const { ActionRowBuilder, Events, ModalBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const { getFirestore, doc, setDoc } = require('firebase/firestore');
 require('dotenv').config();
 
 
@@ -21,7 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 module.exports = {
-    deleted: true,
+    deleted: false,
     data: new SlashCommandBuilder()
       .setName('feedback')
       .setDescription('Give feedback')

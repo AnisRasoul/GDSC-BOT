@@ -4,16 +4,17 @@ module.exports = {
     deleted: false,
     data: new SlashCommandBuilder()
         .setName('members')
-        .setDescription('Gives you a list about our gdsc members !'),
+        .setDescription('Gives you a list about our gdsc members 🕵️'),
         
     run: async ({ interaction, client, handler }) => {
         const membersData = {
-            Lead: [
-                
-                {name:'Amina Benamor', year:'M2', program:'AI'}],
+            Lead: 
+                [
+                {name:'Amina Benamor', year:'M2', program:'AI'}
+                ],
             HR: [
                 {name:'Amani Rahmani', year:'M1 ', program:'AI'},
-                { name: 'Anis Rasoul', year:'3rd year', program: 'Computer Science' }
+                {name: 'Anis Rasoul', year:'3rd year', program: 'Computer Science'}
             ],
             PR: [
                 { name: 'Khenisssa younes', year: 'M1', program: 'Applied Geology' },
@@ -38,6 +39,7 @@ module.exports = {
                 {name:'Bouragbi salah eddine ', year:'2nd Year', program:'Computer Science'}
             ],
             DM: [
+                { name:'Aya hafsia',year:'M1', program:'Economics'},
                 { name: 'Amrane Mohamed', year: '2nd year', program: 'Computer Science' },
                 { name: 'Bouthaina Guezouli', year: '2nd Year', program: 'Computer science ' },
                 { name: 'Amira Benhassir', year: '2nd Year', program: 'Computer science ' }
@@ -81,8 +83,9 @@ module.exports = {
         const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
         const reply = await interaction.reply({
-            content: 'Select a team to get its members 📋',
-            components: [actionRow]
+            content: 'Get to know the GDSC members 🥁 select a department out of this list to to get its members 📋',
+            components: [actionRow],
+            ephemeral: true,
         });
 
         const collector = interaction.channel.createMessageComponentCollector({ componentType: ComponentType.SELECT_MENU, time: 3_600_000 });
