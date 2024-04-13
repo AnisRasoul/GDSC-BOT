@@ -4,17 +4,18 @@ Welcome to GDSC-Guide-Bot, your friendly companion within the Google Developers 
 
 ## Features
 
-- **Warm Welcome:** GDSC-Guide-Bot greets newcomers to the GDSC community, ensuring they feel welcomed and oriented.
-- **Club Information:** Stay informed about upcoming events, workshops, or meetings with GDSC-Guide-Bot's latest information.
-- **FAQ Assistance:** Have a question about the club? GDSC-Guide-Bot is here to help with frequently asked questions.
-- **Resource Repository:** Access a repository of useful resources, including tutorials, articles, and project ideas.
-- **Announcement Broadcasting:** Important announcements about club activities or opportunities are broadcasted by GDSC-Guide-Bot to keep you updated.
-- **Task Automation:** GDSC-Guide-Bot automates routine tasks within the Discord server, such as managing event sign-ups or scheduling reminders.
-- **Interactive Learning:** Engage in interactive learning experiences with GDSC-Guide-Bot, including coding challenges or quizzes.
+- /about: Learn about GDSC.
+- /departments: Discover our club's departments.
+- /explore: Explore GDSC clubs worldwide.
+- /feedback: Share your thoughts with us.
+- /find: Locate our office.
+- /highlights: Get info on highlighted events.
+- /media: Find us on social media.
+- /members: See our members.
 
 ## Purpose
 
-GDSC-Guide-Bot is designed to enhance your experience within the GDSC community. By providing timely information, assistance, and interactive learning opportunities, GDSC-Guide-Bot aims to foster a sense of community and facilitate your growth as aspiring developers.
+GDSC-Guide-Bot offers essential club information to newcomers and members alike, fostering community engagement and growth
 
 ## How to Run
 
