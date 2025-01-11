@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.9",
     "discord.js": "^14.14.1",
     "djs-commander": "^0.0.50",
     "dotenv": "^16.4.5",
-    "firebase": "^10.10.0"
+    "firebase": "^10.10.0",
+    "html-to-text": "^9.0.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

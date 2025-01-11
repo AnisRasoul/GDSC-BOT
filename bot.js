@@ -17,7 +17,6 @@ new CommandHandler({
     client,
     commandsPath: path.join(__dirname, 'commands'),
     eventsPath: path.join(__dirname, 'events'),
-    testServer: process.env.GUILD_ID
 });
 client.login(process.env.TOKEN)
 

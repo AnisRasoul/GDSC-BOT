@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Solution Challenge 24 💡",
+        "description": "solution challenge -event made specialy to try to solve for one of the United Nations’ 17 Sustainable Development Goals using Google technology, Created by the United Nations in 2015 to be achieved by 2030",
+        "event_type_title": "Challenge",
+        "start_date": "2024-03-01T00:00:00Z",
+        "cropped_picture_url": "https://media.licdn.com/dms/image/D4D22AQFkXUqmaQdDAw/feedshare-shrink_800/0/1705947472938?e=2147483647&v=beta&t=NqzLzWvn4-i-J3kD-VsgMA0xnuP7_lA8RG3c_bDkqkI",
+        "url": "https://gdsc.community.dev/events/details/developer-student-clubs-university-of-batna-2-presents-the-google-developer-student-clubs-2023-solution-challenge/"
+    },
+    {
+        "title": "Devfest 23",
+        "description": "DevFest by Google is a global series of developer events organized by Google Developer Groups (GDGs). It brings together developers to learn about Google technologies, attend workshops, and network with industry experts",
+        "event_type_title": "Festival",
+        "start_date": "2023-11-01T00:00:00Z",
+        "cropped_picture_url": "https://media.licdn.com/dms/image/D4D22AQHzK4w_e6ledQ/feedshare-shrink_2048_1536/0/1702755801084?e=2147483647&v=beta&t=uuslh6j-ioBLrRsAYwrPeYdRNgWjS4RWwOYtNTQs3Lo",
+        "url": "https://gdg.community.dev/events/details/google-gdg-batna-presents-devfest-batna-tech-sessions/"
+    },
+    {
+        "title": "RamadanByte Quiz🌙",
+        "description": "ByteRamadan Quiz Nights for quick computer science challenges every Saturday, Monday, and Wednesday!  Let’s embark on this knowledge quest together, sparking curiosity and learning along the way! Get ready to challenge your mind and expand your horizons. Don’t miss out!",
+        "event_type_title": "Quiz",
+        "start_date": "2024-04-01T00:00:00Z",
+        "cropped_picture_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQa3vbCKBBEiJJbN7nQbt5rQjMdcGv7QOs5WUmGMOofYw&s",
+        "url": "https://www.linkedin.com/posts/gdscbatna2_byteramadanquiz-activity-7175932188771684354-caeb"
+    }
+]
