@@ -12,7 +12,7 @@ module.exports = {
 Google Developer Groups (GDG) is your gateway to the vibrant tech community. Here's what you can expect:
 ## **Connect with Local Developers** 👥  
 When you join a GDG, you'll have the opportunity to learn new skills in various formats. Meet local developers—virtually or in-person—who share your passion for technology.
-## **Inclusive Environment** 🌈  
+## **Inclusive Environment**  
 The GDG community prides itself on being inclusive. Whether you're a \`beginner developer\` or an \`experienced professional\`, everyone is welcome to join and grow together.
 ## **What You'll Gain** 🎓  
 \`\`\`

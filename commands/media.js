@@ -1,6 +1,6 @@
 const { SlashCommandBuilder,ActionRowBuilder, ButtonBuilder, ButtonStyle, } = require('discord.js');
 module.exports = {
-    deleted: false, 
+    deleted: true, 
     data: new SlashCommandBuilder()
             .setName('media')
             .setDescription('Get our social media links 💭'),

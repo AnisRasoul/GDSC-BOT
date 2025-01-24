@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ActionRowBuilder, ComponentType, Emoji } = require('discord.js');
 
 module.exports = {
-    deleted: false,
+    deleted: true,
     data: new SlashCommandBuilder()
         .setName('members')
         .setDescription('Gives you a list about our gdsc members 🕵️'),

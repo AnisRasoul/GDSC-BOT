@@ -18,7 +18,7 @@ getGDGCEvents()
   });
 
 module.exports = {
-  deleted: false,
+  deleted: true,
   data: new SlashCommandBuilder()
     .setName("events")
     .setDescription("View upcoming and past events"),
@@ -29,12 +29,10 @@ module.exports = {
     }
 
     const eventEmbeds = gdgc_events.map((event) => {
-      const plainTextDescription = htmlToText(event.description, {
-        wordwrap: 130,
-      });
+
       return new EmbedBuilder()
         .setTitle(event.title)
-        .setDescription(plainTextDescription)
+        .setDescription(event.description)
         .setURL(event.url)
         .setImage(event.cropped_picture_url)
         .addFields(

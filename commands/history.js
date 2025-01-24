@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, ChannelType} = require('discord.js');
 module.exports = {
-    deleted: false, 
+    deleted: true, 
     data: new SlashCommandBuilder()
             .setName('history')
             .setDescription('Get to know the GDSC History  🏛️'),

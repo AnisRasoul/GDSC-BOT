@@ -4,47 +4,29 @@ const {
   ActionRowBuilder,
   StringSelectMenuOptionBuilder,
   ComponentType,
+  EmbedBuilder,
+  ButtonBuilder,
+  ButtonStyle,
 } = require("discord.js");
 const { default: axios } = require("axios");
+const {
+  getAlgeriaChapters,
+  getNorthAmericaChapters,
+  getSouthAmericaChapters,
+  getEuropeChapters,
+  getAfricaChapters,
+  getAsiaChapters,
+} = require("../utils/getChapters");
+const { getClubMembers } = require("../utils/getTeam");
+const { getClubEvents } = require("../utils/getEvents");
+const { createRegionsMenu } = require("../components/select-menu/regionsMenu");
+const { createChaptersMenu } = require("../components/select-menu/chaptersMenu");
+const { createChapterEmbed } = require("../components/embeds/chapterEmbed");
+const { createMembersButton } = require("../components/buttons/membersButton");
+const { createEventsButton } = require("../components/buttons/eventsButton");
+const { createEventsEmbed } = require("../components/embeds/eventsEmbed");
+const { createMemberEmbed } = require("../components/embeds/membersEmbed");
 
-function getAlgeriaChapters(jsonData) {
-  const flatArray = jsonData.flatMap((item) => item.chapters);
-  const algeriaChapters = flatArray.filter((item) => item.country === "DZ");
-  return algeriaChapters;
-}
-function getNorthAmericaChapters(jsonData) {
-  const northAmericaData = jsonData.filter((item) => item.id === 5);
-  const northAmericaChapters = northAmericaData.flatMap(
-    (item) => item.chapters
-  );
-  return northAmericaChapters;
-}
-
-function getSouthAmericaChapters(jsonData) {
-  const southAmericaData = jsonData.filter((item) => item.id === 4);
-  const southAmericaChapters = southAmericaData.flatMap(
-    (item) => item.chapters
-  );
-  return southAmericaChapters;
-}
-
-function getEuropeChapters(jsonData) {
-  const europeData = jsonData.filter((item) => item.id === 2);
-  const europeChapters = europeData.flatMap((item) => item.chapters);
-  return europeChapters;
-}
-
-function getAsiaChapters(jsonData) {
-  const asiaData = jsonData.filter((item) => item.id === 3);
-  const asiaChapters = asiaData.flatMap((item) => item.chapters);
-  return asiaChapters;
-}
-
-function getAfricaChapters(jsonData) {
-  const africaData = jsonData.filter((item) => item.id === 1);
-  const africaChapters = africaData.flatMap((item) => item.chapters);
-  return africaChapters;
-}
 module.exports = {
   deleted: false,
   data: new SlashCommandBuilder()
@@ -52,74 +34,195 @@ module.exports = {
     .setDescription("This shows you some GDSC world's chapters"),
 
   run: async ({ interaction, client, handler }) => {
-    await interaction.deferReply({ ephemeral: true });
+    try {
+      await interaction.deferReply({ ephemeral: true });
 
-    const res = await axios.get(
-      "https://gdg.community.dev/api/chapter_region?chapters=true"
-    );
-    const jsonData = res.data;
-    const regionsData = {
-      Algeria: getAlgeriaChapters(jsonData),
-      NorthAmerica: getNorthAmericaChapters(jsonData),
-      SouthAmerica: getSouthAmericaChapters(jsonData),
-      Europe: getEuropeChapters(jsonData),
-      Africa: getAfricaChapters(jsonData),
-      Asia: getAsiaChapters(jsonData),
-    };
-
-    const regions = Object.keys(regionsData);
-    const selectMenu = new StringSelectMenuBuilder()
-      .setCustomId(interaction.id)
-      .setPlaceholder("Select a Region...")
-      .setMinValues(0)
-      .addOptions(
-        regions.map((region) =>
-          new StringSelectMenuOptionBuilder().setLabel(region).setValue(region)
-        )
+      const res = await axios.get(
+        "https://gdg.community.dev/api/chapter_region?chapters=true"
       );
-    const actionRow = new ActionRowBuilder().addComponents(selectMenu);
+      const jsonData = res.data;
+      const regionsData = {
+        Algeria: getAlgeriaChapters(jsonData),
+        NorthAmerica: getNorthAmericaChapters(jsonData),
+        SouthAmerica: getSouthAmericaChapters(jsonData),
+        Europe: getEuropeChapters(jsonData),
+        Africa: getAfricaChapters(jsonData),
+        Asia: getAsiaChapters(jsonData),
+      };
 
-    const reply = await interaction.editReply({
-      content:
-        "Hey there!! 🌎 Ready to discover some of Goodgle developer groups chapters beyond borders?\n Select a region and get to know them",
-      components: [actionRow],
-    });
-    const collector = interaction.channel.createMessageComponentCollector({
-      componentType: ComponentType.SELECT_MENU,
-      time: 3_600_000,
-    });
+      const regions = Object.keys(regionsData);
+      const selectMenu = createRegionsMenu(regions);
+      const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
-    collector.on("collect", async (i) => {
-      const selection = i.values[0];
-      const selectedRegions = regionsData[selection] || [];
-      const shuffledRegions = selectedRegions.sort(() => 0.5 - Math.random());
-      const truncatedRegions = shuffledRegions.slice(0, 10); // Limit to 10 chapters per embed
-
-      if (truncatedRegions.length === 0) {
-        await i.reply({
-          content: `**${selection}**\n\nNo chapters found for this region.`,
-          ephemeral: true,
-        });
-        return;
-      }
-
-      const embeds = truncatedRegions.map((club) => {
-        return {
-          title: club.title,
-          description: `📍 **${club.city}, ${club.country}**\n🔗 [Visit Chapter](${club.url})`,
-          image: {
-            url:
-              club.picture?.url ||
-              "https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2,f_auto,g_center,q_auto:good/v1/gcs/platform-data-goog/chapter_banners/GDG23-Bevy-2650_E9BH6dw.png", // Use the chapter's picture or fallback image
-          },
-          color: 0x00ff00,
-        };
+      await interaction.editReply({
+        content:
+          "Hey there!! 🌎 Ready to discover some of Google developer groups chapters beyond borders?\n Select a region and get to know them",
+        components: [actionRow],
       });
 
-      await i.reply({
-        embeds: embeds,
+      // Store previous messages for cleanup
+      let previousMessages = [];
+
+      const regionCollector =
+        interaction.channel.createMessageComponentCollector({
+          componentType: ComponentType.SelectMenu,
+          time: 3_600_000,
+          filter: (i) => i.customId === "region_select",
+        });
+
+      regionCollector.on("collect", async (i) => {
+        try {
+          await i.deferUpdate();
+          const selection = i.values[0];
+          const selectedRegions = regionsData[selection] || [];
+          const shuffledRegions = selectedRegions.sort(
+            () => 0.5 - Math.random()
+          );
+          const truncatedRegions = shuffledRegions
+            .filter((club) => club.url.length <= 100)
+            .slice(0, 24);
+
+          if (truncatedRegions.length === 0) {
+            const noChaptersMessage = await i.followUp({
+              content: `**${selection}**\n\nNo chapters found for this region.`,
+              ephemeral: true,
+            });
+            previousMessages.push(noChaptersMessage);
+            return;
+          }
+
+          const clubSelectMenu = createChaptersMenu(truncatedRegions);
+          const clubActionRow = new ActionRowBuilder().addComponents(
+            clubSelectMenu
+          );
+
+          const clubSelectionMessage = await i.followUp({
+            content: `**${selection}**\n\nSelect a club to see more details:`,
+            components: [clubActionRow],
+            ephemeral: true,
+          });
+          previousMessages.push(clubSelectionMessage);
+
+          const clubCollector =
+            interaction.channel.createMessageComponentCollector({
+              componentType: ComponentType.SelectMenu,
+              time: 3_600_000,
+              filter: (i) => i.customId === "club_select",
+            });
+
+          clubCollector.on("collect", async (clubInteraction) => {
+            try {
+              await clubInteraction.deferUpdate();
+
+
+
+              const selectedClubId = clubInteraction.values[0];
+              const selectedClub = truncatedRegions.find(
+                (club) => club.id.toString() === selectedClubId
+              );
+
+              if (!selectedClub) {
+                const notFoundMessage = await clubInteraction.followUp({
+                  content: "Club not found.",
+                  ephemeral: true,
+                });
+                previousMessages.push(notFoundMessage);
+                return;
+              }
+
+              const clubEmbed = createChapterEmbed(selectedClub);
+              const membersButton = createMembersButton(selectedClub);
+              const eventsButton = createEventsButton(selectedClub);
+
+              const buttonActionRow = new ActionRowBuilder().addComponents(
+                membersButton,
+                eventsButton
+              );
+
+              const clubEmbedMessage = await clubInteraction.followUp({
+                embeds: [clubEmbed],
+                components: [buttonActionRow],
+                ephemeral: true,
+              });
+              previousMessages.push(clubEmbedMessage);
+
+              const buttonCollector =
+                interaction.channel.createMessageComponentCollector({
+                  componentType: ComponentType.Button,
+                  time: 3_600_000,
+                });
+
+              buttonCollector.on("collect", async (buttonInteraction) => {
+                try {
+                  await buttonInteraction.deferUpdate();
+
+                  const [action, clubId] =
+                    buttonInteraction.customId.split("_");
+
+                  if (action === "members") {
+                    const clubMembers = await getClubMembers(clubId);
+                    const membersEmbeds = createMemberEmbed(clubMembers);
+
+                    for (const embed of membersEmbeds) {
+                      const memberEmbedMessage = await buttonInteraction.followUp({
+                        embeds: [embed],
+                        ephemeral: true,
+                      });
+                      previousMessages.push(memberEmbedMessage);
+                    }
+                  } else if (action === "events") {
+                    try {
+                      const clubid = parseInt(clubId, 10);
+                      const clubEvents = await getClubEvents(clubid);
+                      const eventEmbeds = createEventsEmbed(clubEvents);
+
+                      const eventsEmbedMessage = await buttonInteraction.followUp({
+                        embeds: eventEmbeds,
+                        ephemeral: true,
+                      });
+                      previousMessages.push(eventsEmbedMessage);
+                    } catch (error) {
+                      console.error(error);
+                      const errorMessage = await buttonInteraction.followUp({
+                        content: "No events found for this club.",
+                        ephemeral: true,
+                      });
+                      previousMessages.push(errorMessage);
+                    }
+                  }
+                } catch (error) {
+                  console.error("Button interaction error:", error);
+                  const errorMessage = await buttonInteraction.followUp({
+                    content: "An error occurred while processing your request.",
+                    ephemeral: true,
+                  });
+                  previousMessages.push(errorMessage);
+                }
+              });
+            } catch (error) {
+              console.error("Club interaction error:", error);
+              const errorMessage = await clubInteraction.followUp({
+                content: "An error occurred while processing your request.",
+                ephemeral: true,
+              });
+              previousMessages.push(errorMessage);
+            }
+          });
+        } catch (error) {
+          console.error("Region interaction error:", error);
+          const errorMessage = await i.followUp({
+            content: "An error occurred while processing your request.",
+            ephemeral: true,
+          });
+          previousMessages.push(errorMessage);
+        }
+      });
+    } catch (error) {
+      console.error("Command execution error:", error);
+      await interaction.followUp({
+        content: "An error occurred while processing your request.",
         ephemeral: true,
       });
-    });
+    }
   },
 };
