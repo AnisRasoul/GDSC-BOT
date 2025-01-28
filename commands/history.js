@@ -1,32 +1,37 @@
-const { SlashCommandBuilder, ChannelType} = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
+
 module.exports = {
-    deleted: true, 
+    deleted: false,
     data: new SlashCommandBuilder()
-            .setName('history')
-            .setDescription('Get to know the GDSC History  🏛️'),
-    run: ({interaction, client, handler}) => {
+        .setName('history')
+        .setDescription('Learn about the history of Google Developer Groups 🌐'),
+    run: ({ interaction }) => {
         interaction.reply({
-            content: ` 
-            Hey there 👋  ! here I'm gonna show you how the GDSC <:gdsc:947931741207789618>  was started... 🏛️
+            content: `
+Let's take a journey through the history of **Google Developer Groups (GDG)** 🌟
 
-📜 The history of GDSC can be traced back to its predecessor, the Google Developer Groups (GDG) program. 
+🏛️ **How it All Started**  
+Google Developer Groups (GDG) began in **2008** as a grassroots initiative to bring developers together. These groups were organized by passionate tech enthusiasts who wanted to share knowledge, collaborate, and build a community around Google's platforms.
 
-📜 GDG began as a small initiative in 2008, aiming to bring developers together 
-These groups were typically organized by volunteers passionate about technology and Google's platforms.
+🌍 **A Global Movement**  
+What started as small meetups quickly grew into a **worldwide network** of communities. Today, GDG chapters exist in **over 140 countries**, empowering developers everywhere to learn, connect, and grow.
 
-📜 Over time, GDGs grew in popularity and became a global network of developer communities.
+💡 **What GDG Stands For**  
+GDGs are **developer-driven communities** supported by Google. They focus on:  
+- Hosting **workshops**, **hackathons**, and **talks** to share knowledge.  
+- Exploring technologies like **Android**, **Firebase**, **Cloud**, and more.  
+- Building a space where developers can collaborate and innovate.
 
-📜 In 2016, Google launched the Developer Student Clubs (DSC) program as an extension of GDGs, specifically targeting university students. 
+🚀 **Impact Over the Years**  
+GDGs have inspired countless developers to start new projects, launch careers, and contribute to open-source communities. The initiative fosters inclusivity, encouraging everyone to be part of the tech revolution.
 
-📜 DSC aimed to provide students with opportunities to learn about Google technologies, collaborate on projects, and network with other students and industry professionals.
+🌟 **Join the Movement**  
+Whether you're a beginner or an expert, GDGs offer something for everyone. Connect with your local chapter and be part of this incredible global community.
 
-📜 DSC chapters were established in universities worldwide including the chapter university of Batna 2, with student leaders organizing events, workshops, and hackathons.
+Want to know more? Check out the official GDG website or find a chapter near you! 🌐
 
-📜 In 2019, Google rebranded the DSC program as Google Developer Student Clubs (GDSC) to align it more closely with the broader Google Developer ecosystem.`,
-            ephemeral: true 
-        })}};
-
-
-
-
-
+        `,
+            ephemeral: true
+        });
+    }
+};

@@ -1,10 +1,7 @@
 const {
   SlashCommandBuilder,
-  StringSelectMenuBuilder,
   ActionRowBuilder,
-  StringSelectMenuOptionBuilder,
   ComponentType,
-  EmbedBuilder,
   ButtonBuilder,
   ButtonStyle,
 } = require("discord.js");
@@ -20,12 +17,16 @@ const {
 const { getClubMembers } = require("../utils/getTeam");
 const { getClubEvents } = require("../utils/getEvents");
 const { createRegionsMenu } = require("../components/select-menu/regionsMenu");
-const { createChaptersMenu } = require("../components/select-menu/chaptersMenu");
+const {
+  createChaptersMenu,
+} = require("../components/select-menu/chaptersMenu");
 const { createChapterEmbed } = require("../components/embeds/chapterEmbed");
 const { createMembersButton } = require("../components/buttons/membersButton");
 const { createEventsButton } = require("../components/buttons/eventsButton");
 const { createEventsEmbed } = require("../components/embeds/eventsEmbed");
 const { createMemberEmbed } = require("../components/embeds/membersEmbed");
+const { createSMButton } = require("../components/buttons/smButton");
+const { getSocialMediaLinks } = require("../utils/getSM");
 
 module.exports = {
   deleted: false,
@@ -33,7 +34,7 @@ module.exports = {
     .setName("explore")
     .setDescription("This shows you some GDSC world's chapters"),
 
-  run: async ({ interaction, client, handler }) => {
+  run: async ({ interaction }) => {
     try {
       await interaction.deferReply({ ephemeral: true });
 
@@ -97,7 +98,7 @@ module.exports = {
           );
 
           const clubSelectionMessage = await i.followUp({
-            content: `**${selection}**\n\nSelect a club to see more details:`,
+            content: `**You have selected ${selection} !**\nSelect a club to see more details:`,
             components: [clubActionRow],
             ephemeral: true,
           });
@@ -113,8 +114,6 @@ module.exports = {
           clubCollector.on("collect", async (clubInteraction) => {
             try {
               await clubInteraction.deferUpdate();
-
-
 
               const selectedClubId = clubInteraction.values[0];
               const selectedClub = truncatedRegions.find(
@@ -133,10 +132,12 @@ module.exports = {
               const clubEmbed = createChapterEmbed(selectedClub);
               const membersButton = createMembersButton(selectedClub);
               const eventsButton = createEventsButton(selectedClub);
+              const smButton = createSMButton(selectedClub);
 
               const buttonActionRow = new ActionRowBuilder().addComponents(
                 membersButton,
-                eventsButton
+                eventsButton,
+                smButton
               );
 
               const clubEmbedMessage = await clubInteraction.followUp({
@@ -164,27 +165,69 @@ module.exports = {
                     const membersEmbeds = createMemberEmbed(clubMembers);
 
                     for (const embed of membersEmbeds) {
-                      const memberEmbedMessage = await buttonInteraction.followUp({
-                        embeds: [embed],
-                        ephemeral: true,
-                      });
+                      const memberEmbedMessage =
+                        await buttonInteraction.followUp({
+                          embeds: [embed],
+                          ephemeral: true,
+                        });
                       previousMessages.push(memberEmbedMessage);
                     }
-                  } else if (action === "events") {
+                  }
+                  else if (action === "events") {
                     try {
                       const clubid = parseInt(clubId, 10);
                       const clubEvents = await getClubEvents(clubid);
                       const eventEmbeds = createEventsEmbed(clubEvents);
 
-                      const eventsEmbedMessage = await buttonInteraction.followUp({
-                        embeds: eventEmbeds,
-                        ephemeral: true,
-                      });
+                      const eventsEmbedMessage =
+                        await buttonInteraction.followUp({
+                          embeds: eventEmbeds,
+                          ephemeral: true,
+                        });
                       previousMessages.push(eventsEmbedMessage);
                     } catch (error) {
                       console.error(error);
                       const errorMessage = await buttonInteraction.followUp({
                         content: "No events found for this club.",
+                        ephemeral: true,
+                      });
+                      previousMessages.push(errorMessage);
+                    }
+                  }
+                  else if (action === "sm") { // Changed from "links" to "sm"
+                    try {
+                      const socialMediaLinks = await getSocialMediaLinks(clubId);
+                      
+                      if (socialMediaLinks.length === 0) {
+                        const noLinksMessage = await buttonInteraction.followUp({
+                          content: "No social media links found for this club.",
+                          ephemeral: true,
+                        });
+                        previousMessages.push(noLinksMessage);
+                        return;
+                      }
+
+                      const socialMediaButtons = socialMediaLinks.map((link) =>
+                        new ButtonBuilder()
+                          .setLabel(link.platform)
+                          .setStyle(ButtonStyle.Link) // Changed from "LINK" to ButtonStyle.Link
+                          .setURL(link.link)
+                      );
+
+                      const smActionRow = new ActionRowBuilder().addComponents(
+                        ...socialMediaButtons
+                      );
+
+                      const smMessage = await buttonInteraction.followUp({
+                        content: "Here are the social media links:",
+                        components: [smActionRow],
+                        ephemeral: true,
+                      });
+                      previousMessages.push(smMessage);
+                    } catch (error) {
+                      console.error("Social media links error:", error);
+                      const errorMessage = await buttonInteraction.followUp({
+                        content: "An error occurred while fetching social media links.",
                         ephemeral: true,
                       });
                       previousMessages.push(errorMessage);
