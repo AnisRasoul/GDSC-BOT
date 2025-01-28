@@ -15,6 +15,7 @@
     "discord.js": "^14.14.1",
     "djs-commander": "^0.0.50",
     "dotenv": "^16.4.5",
+    "express": "^4.21.2",
     "firebase": "^10.10.0",
     "html-to-text": "^9.0.5"
   },
