@@ -31,8 +31,6 @@ async function getSocialMediaLinks(clubUrl) {
         });
       }
     });
-
-    console.log(links);
     return links;
 
   } catch (error) {

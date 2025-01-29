@@ -43,7 +43,6 @@ module.exports = {
           userId: userId,
           time: new Date(timestamp).toISOString()
         });
-        console.log("Document written with ID: ", docRef.id);
         interaction.reply({
           content: `Hi, ${interaction.user.globalName}. Thanks for the feedback`,
           ephemeral: true 
