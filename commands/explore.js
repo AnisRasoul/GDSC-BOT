@@ -36,11 +36,16 @@ module.exports = {
 
   run: async ({ interaction }) => {
     try {
+      // Defer the reply to avoid interaction timeout
       await interaction.deferReply({ ephemeral: true });
 
+      // Fetch chapters data
       const res = await axios.get(
         "https://gdg.community.dev/api/chapter_region?chapters=true"
-      );
+      ).catch((error) => {
+        throw new Error(`Failed to fetch chapters data: ${error.message}`);
+      });
+
       const jsonData = res.data;
       const regionsData = {
         Algeria: getAlgeriaChapters(jsonData),
@@ -55,61 +60,54 @@ module.exports = {
       const selectMenu = createRegionsMenu(regions);
       const actionRow = new ActionRowBuilder().addComponents(selectMenu);
 
+      // Send the initial reply with the regions menu
       await interaction.editReply({
         content:
           "Hey there!! 🌎 Ready to discover some of Google developer groups chapters beyond borders?\n Select a region and get to know them",
         components: [actionRow],
       });
 
-      // Store previous messages for cleanup
-      let previousMessages = [];
-
-      const regionCollector =
-        interaction.channel.createMessageComponentCollector({
-          componentType: ComponentType.SelectMenu,
-          time: 3_600_000,
-          filter: (i) => i.customId === "region_select",
-        });
+      // Region selection collector
+      const regionCollector = interaction.channel.createMessageComponentCollector({
+        componentType: ComponentType.SelectMenu,
+        time: 3_600_000,
+        filter: (i) => i.customId === "region_select",
+      });
 
       regionCollector.on("collect", async (i) => {
         try {
           await i.deferUpdate();
+
           const selection = i.values[0];
           const selectedRegions = regionsData[selection] || [];
-          const shuffledRegions = selectedRegions.sort(
-            () => 0.5 - Math.random()
-          );
+          const shuffledRegions = selectedRegions.sort(() => 0.5 - Math.random());
           const truncatedRegions = shuffledRegions
             .filter((club) => club.url.length <= 100)
             .slice(0, 24);
 
           if (truncatedRegions.length === 0) {
-            const noChaptersMessage = await i.followUp({
+            await i.followUp({
               content: `**${selection}**\n\nNo chapters found for this region.`,
               ephemeral: true,
             });
-            previousMessages.push(noChaptersMessage);
             return;
           }
 
           const clubSelectMenu = createChaptersMenu(truncatedRegions);
-          const clubActionRow = new ActionRowBuilder().addComponents(
-            clubSelectMenu
-          );
+          const clubActionRow = new ActionRowBuilder().addComponents(clubSelectMenu);
 
-          const clubSelectionMessage = await i.followUp({
+          await i.followUp({
             content: `**You have selected ${selection} !**\nSelect a club to see more details:`,
             components: [clubActionRow],
             ephemeral: true,
           });
-          previousMessages.push(clubSelectionMessage);
 
-          const clubCollector =
-            interaction.channel.createMessageComponentCollector({
-              componentType: ComponentType.SelectMenu,
-              time: 3_600_000,
-              filter: (i) => i.customId === "club_select",
-            });
+          // Club selection collector
+          const clubCollector = interaction.channel.createMessageComponentCollector({
+            componentType: ComponentType.SelectMenu,
+            time: 3_600_000,
+            filter: (i) => i.customId === "club_select",
+          });
 
           clubCollector.on("collect", async (clubInteraction) => {
             try {
@@ -121,11 +119,10 @@ module.exports = {
               );
 
               if (!selectedClub) {
-                const notFoundMessage = await clubInteraction.followUp({
+                await clubInteraction.followUp({
                   content: "Club not found.",
                   ephemeral: true,
                 });
-                previousMessages.push(notFoundMessage);
                 return;
               }
 
@@ -140,124 +137,99 @@ module.exports = {
                 smButton
               );
 
-              const clubEmbedMessage = await clubInteraction.followUp({
+              await clubInteraction.followUp({
                 embeds: [clubEmbed],
                 components: [buttonActionRow],
                 ephemeral: true,
               });
-              previousMessages.push(clubEmbedMessage);
 
-              const buttonCollector =
-                interaction.channel.createMessageComponentCollector({
-                  componentType: ComponentType.Button,
-                  time: 3_600_000,
-                });
+              // Button interaction collector
+              const buttonCollector = interaction.channel.createMessageComponentCollector({
+                componentType: ComponentType.Button,
+                time: 3_600_000,
+              });
 
               buttonCollector.on("collect", async (buttonInteraction) => {
                 try {
                   await buttonInteraction.deferUpdate();
 
-                  const [action, clubId] =
-                    buttonInteraction.customId.split("_");
+                  const [action, clubId] = buttonInteraction.customId.split("_");
 
                   if (action === "members") {
-                    const clubMembers = await getClubMembers(clubId);
+                    const clubMembers = await getClubMembers(clubId).catch((error) => {
+                      throw new Error(`Failed to fetch members: ${error.message}`);
+                    });
                     const membersEmbeds = createMemberEmbed(clubMembers);
 
                     for (const embed of membersEmbeds) {
-                      const memberEmbedMessage =
-                        await buttonInteraction.followUp({
-                          embeds: [embed],
-                          ephemeral: true,
-                        });
-                      previousMessages.push(memberEmbedMessage);
-                    }
-                  }
-                  else if (action === "events") {
-                    try {
-                      const clubid = parseInt(clubId, 10);
-                      const clubEvents = await getClubEvents(clubid);
-                      const eventEmbeds = createEventsEmbed(clubEvents);
-
-                      const eventsEmbedMessage =
-                        await buttonInteraction.followUp({
-                          embeds: eventEmbeds,
-                          ephemeral: true,
-                        });
-                      previousMessages.push(eventsEmbedMessage);
-                    } catch (error) {
-                      console.error(error);
-                      const errorMessage = await buttonInteraction.followUp({
-                        content: "No events found for this club.",
+                      await buttonInteraction.followUp({
+                        embeds: [embed],
                         ephemeral: true,
                       });
-                      previousMessages.push(errorMessage);
                     }
-                  }
-                  else if (action === "sm") { // Changed from "links" to "sm"
-                    try {
-                      const socialMediaLinks = await getSocialMediaLinks(clubId);
-                      
-                      if (socialMediaLinks.length === 0) {
-                        const noLinksMessage = await buttonInteraction.followUp({
-                          content: "No social media links found for this club.",
-                          ephemeral: true,
-                        });
-                        previousMessages.push(noLinksMessage);
-                        return;
-                      }
+                  } else if (action === "events") {
+                    const clubid = parseInt(clubId, 10);
+                    const clubEvents = await getClubEvents(clubid).catch((error) => {
+                      throw new Error(`Failed to fetch events: ${error.message}`);
+                    });
+                    const eventEmbeds = createEventsEmbed(clubEvents);
 
-                      const socialMediaButtons = socialMediaLinks.map((link) =>
-                        new ButtonBuilder()
-                          .setLabel(link.platform)
-                          .setStyle(ButtonStyle.Link) // Changed from "LINK" to ButtonStyle.Link
-                          .setURL(link.link)
-                      );
+                    await buttonInteraction.followUp({
+                      embeds: eventEmbeds,
+                      ephemeral: true,
+                    });
+                  } else if (action === "sm") {
+                    const socialMediaLinks = await getSocialMediaLinks(clubId).catch((error) => {
+                      throw new Error(`Failed to fetch social media links: ${error.message}`);
+                    });
 
-                      const smActionRow = new ActionRowBuilder().addComponents(
-                        ...socialMediaButtons
-                      );
-
-                      const smMessage = await buttonInteraction.followUp({
-                        content: "Here are the social media links:",
-                        components: [smActionRow],
+                    if (socialMediaLinks.length === 0) {
+                      await buttonInteraction.followUp({
+                        content: "No social media links found for this club.",
                         ephemeral: true,
                       });
-                      previousMessages.push(smMessage);
-                    } catch (error) {
-                      console.error("Social media links error:", error);
-                      const errorMessage = await buttonInteraction.followUp({
-                        content: "An error occurred while fetching social media links.",
-                        ephemeral: true,
-                      });
-                      previousMessages.push(errorMessage);
+                      return;
                     }
+
+                    const socialMediaButtons = socialMediaLinks.map((link) =>
+                      new ButtonBuilder()
+                        .setLabel(link.platform)
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(link.link)
+                    );
+
+                    const smActionRow = new ActionRowBuilder().addComponents(
+                      ...socialMediaButtons
+                    );
+
+                    await buttonInteraction.followUp({
+                      content: "Here are the social media links:",
+                      components: [smActionRow],
+                      ephemeral: true,
+                    });
                   }
                 } catch (error) {
                   console.error("Button interaction error:", error);
-                  const errorMessage = await buttonInteraction.followUp({
+                  await buttonInteraction.followUp({
                     content: "An error occurred while processing your request.",
                     ephemeral: true,
                   });
-                  previousMessages.push(errorMessage);
                 }
               });
             } catch (error) {
               console.error("Club interaction error:", error);
-              const errorMessage = await clubInteraction.followUp({
+              await clubInteraction.followUp({
                 content: "An error occurred while processing your request.",
                 ephemeral: true,
               });
-              previousMessages.push(errorMessage);
             }
           });
         } catch (error) {
           console.error("Region interaction error:", error);
-          const errorMessage = await i.followUp({
+          await i.followUp({
             content: "An error occurred while processing your request.",
             ephemeral: true,
           });
-          previousMessages.push(errorMessage);
         }
       });
     } catch (error) {
